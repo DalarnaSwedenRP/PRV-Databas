@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <title>DSR Varumärkesregister</title>
 <style>
-  /* --- Grundlayout --- */
   body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(135deg, #74ebd5, #ACB6E5);
@@ -29,7 +28,6 @@
     box-shadow: 0 8px 25px rgba(0,0,0,0.2);
   }
 
-  /* --- Inputs & Knapp --- */
   input, select, button {
     padding: 10px 15px;
     margin: 5px;
@@ -57,7 +55,6 @@
     background-color: #66d0c0;
   }
 
-  /* --- Resultatlista --- */
   ul {
     list-style: none;
     padding: 0;
@@ -76,7 +73,6 @@
     background-color: #e0f7fa;
   }
 
-  /* --- Filterrad --- */
   .filters {
     display: flex;
     flex-wrap: wrap;
@@ -97,12 +93,8 @@
 <div class="container">
   <div class="filters">
     <input type="text" id="searchInput" placeholder="Sök varumärke">
-    <select id="lanSelect" onchange="updateKommuner()">
-      <option value="">Alla län</option>
-    </select>
-    <select id="kommunSelect">
-      <option value="">Alla kommuner</option>
-    </select>
+    <select id="lanSelect" onchange="updateKommuner()"></select>
+    <select id="kommunSelect"></select>
     <button onclick="search()">Sök</button>
   </div>
 
@@ -131,15 +123,17 @@ function populateLans() {
     option.textContent = lan;
     lanSelect.appendChild(option);
   });
+
+  updateKommuner(); // uppdatera kommuner direkt efter ladda län
 }
 
 function updateKommuner() {
   const selectedLan = document.getElementById('lanSelect').value;
   const kommunSelect = document.getElementById('kommunSelect');
-  kommunSelect.innerHTML = '<option value="">Alla kommuner</option>';
+  kommunSelect.innerHTML = '';
 
   kommunList = [...new Set(brands
-    .filter(b => !selectedLan || b.lan === selectedLan)
+    .filter(b => b.lan === selectedLan)
     .map(b => b.kommun))];
 
   kommunList.forEach(k => {
@@ -159,8 +153,8 @@ function search() {
 
   const results = brands.filter(b => {
     return (!query || b.varumarke.toLowerCase().includes(query)) &&
-           (!selectedLan || b.lan === selectedLan) &&
-           (!selectedKommun || b.kommun === selectedKommun);
+           b.lan === selectedLan &&
+           b.kommun === selectedKommun;
   });
 
   if (results.length === 0) {
