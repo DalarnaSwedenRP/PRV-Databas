@@ -2,21 +2,21 @@
   {
     "id": 1,
     "varumarke": "Windskore",
-    "agare": "Adrian",
+    "agare": "Windskore AB",
     "registreringsdatum": "2026-02-02",
-    "kategori": "Spel",
+    "kategori": "Alla",
     "status": "Aktiv",
     "lan": "Dalarna",
-    "kommun": "Hedemora"
+    "kommun": "Alla"
   },
   {
     "id": 2,
-    "varumarke": "Dalarna Motors",
-    "agare": "Jonas",
-    "registreringsdatum": "2025-12-15",
-    "kategori": "Fordon",
+    "varumarke": "Windskore Games",
+    "agare": "Windskore AB",
+    "registreringsdatum": "2026-02-02",
+    "kategori": "Alla",
     "status": "Aktiv",
-    "lan": "Stockholm",
-    "kommun": "Stockholm"
+    "lan": "Dalarna",
+    "kommun": "Alla"
   }
 ]
