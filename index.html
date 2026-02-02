@@ -28,7 +28,7 @@
     box-shadow: 0 8px 25px rgba(0,0,0,0.2);
   }
 
-  input, select, button {
+  input, button {
     padding: 10px 15px;
     margin: 5px;
     font-size: 16px;
@@ -38,7 +38,7 @@
     transition: 0.3s;
   }
 
-  input:focus, select:focus {
+  input:focus {
     border-color: #74ebd5;
     box-shadow: 0 0 5px #74ebd5;
   }
@@ -75,14 +75,13 @@
 
   .filters {
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
     margin-bottom: 20px;
   }
 
-  .filters input, .filters select {
+  .filters input {
     flex: 1;
-    min-width: 150px;
+    min-width: 200px;
   }
 </style>
 </head>
@@ -93,8 +92,6 @@
 <div class="container">
   <div class="filters">
     <input type="text" id="searchInput" placeholder="Sök varumärke">
-    <select id="lanSelect" onchange="updateKommuner()"></select>
-    <select id="kommunSelect"></select>
     <button onclick="search()">Sök</button>
   </div>
 
@@ -103,60 +100,18 @@
 
 <script>
 let brands = [];
-let lanList = [];
-let kommunList = [];
 
 // Ladda data.json
 fetch('data.json')
   .then(res => res.json())
-  .then(data => {
-    brands = data;
-    populateLans();
-  });
-
-function populateLans() {
-  const lanSelect = document.getElementById('lanSelect');
-  lanList = [...new Set(brands.map(b => b.lan))];
-  lanList.forEach(lan => {
-    const option = document.createElement('option');
-    option.value = lan;
-    option.textContent = lan;
-    lanSelect.appendChild(option);
-  });
-
-  updateKommuner();
-}
-
-function updateKommuner() {
-  const selectedLan = document.getElementById('lanSelect').value;
-  const kommunSelect = document.getElementById('kommunSelect');
-  kommunSelect.innerHTML = '';
-
-  kommunList = [...new Set(brands
-    .filter(b => b.lan === selectedLan)
-    .map(b => b.kommun))];
-
-  kommunList.forEach(k => {
-    const option = document.createElement('option');
-    option.value = k;
-    option.textContent = k;
-    kommunSelect.appendChild(option);
-  });
-}
+  .then(data => brands = data);
 
 function search() {
   const query = document.getElementById('searchInput').value.toLowerCase();
-  const selectedLan = document.getElementById('lanSelect').value;
-  const selectedKommun = document.getElementById('kommunSelect').value;
   const resultsList = document.getElementById('results');
   resultsList.innerHTML = '';
 
-  const results = brands.filter(b => {
-    const matchesQuery = !query || b.varumarke.toLowerCase().includes(query);
-    const matchesLan = !selectedLan || b.lan === selectedLan;
-    const matchesKommun = !selectedKommun || b.kommun === selectedKommun;
-    return matchesQuery && matchesLan && matchesKommun;
-  });
+  const results = brands.filter(b => b.varumarke.toLowerCase().includes(query));
 
   if (results.length === 0) {
     resultsList.innerHTML = '<li>Inga varumärken hittades</li>';
