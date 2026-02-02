@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<title>DSR Varumärkesregister</title>
+</head>
+<body>
+<h1>Dalarna Sweden RP - Varumärkesregister</h1>
+
+<input type="text" id="searchInput" placeholder="Sök varumärke">
+<select id="lanSelect" onchange="updateKommuner()">
+  <option value="">Alla län</option>
+</select>
+<select id="kommunSelect">
+  <option value="">Alla kommuner</option>
+</select>
+<button onclick="search()">Sök</button>
+
+<ul id="results"></ul>
+
+<script>
+let brands = [];
+let lanList = [];
+let kommunList = [];
+
+// Ladda data.json
+fetch('data.json')
+  .then(res => res.json())
+  .then(data => {
+    brands = data;
+    populateLans();
+  });
+
+function populateLans() {
+  const lanSelect = document.getElementById('lanSelect');
+  lanList = [...new Set(brands.map(b => b.lan))];
+  lanList.forEach(lan => {
+    const option = document.createElement('option');
+    option.value = lan;
+    option.textContent = lan;
+    lanSelect.appendChild(option);
+  });
+}
+
+function updateKommuner() {
+  const selectedLan = document.getElementById('lanSelect').value;
+  const kommunSelect = document.getElementById('kommunSelect');
+  kommunSelect.innerHTML = '<option value="">Alla kommuner</option>';
+
+  kommunList = [...new Set(brands
+    .filter(b => !selectedLan || b.lan === selectedLan)
+    .map(b => b.kommun))];
+
+  kommunList.forEach(k => {
+    const option = document.createElement('option');
+    option.value = k;
+    option.textContent = k;
+    kommunSelect.appendChild(option);
+  });
+}
+
+function search() {
+  const query = document.getElementById('searchInput').value.toLowerCase();
+  const selectedLan = document.getElementById('lanSelect').value;
+  const selectedKommun = document.getElementById('kommunSelect').value;
+  const resultsList = document.getElementById('results');
+  resultsList.innerHTML = '';
+
+  const results = brands.filter(b => {
+    return (!query || b.varumarke.toLowerCase().includes(query)) &&
+           (!selectedLan || b.lan === selectedLan) &&
+           (!selectedKommun || b.kommun === selectedKommun);
+  });
+
+  if (results.length === 0) {
+    resultsList.innerHTML = '<li>Inga varumärken hittades</li>';
+  } else {
+    results.forEach(b => {
+      const li = document.createElement('li');
+      li.textContent = `${b.varumarke} - Ägare: ${b.agare} - Status: ${b.status} - Registrerat: ${b.registreringsdatum} - ${b.lan}, ${b.kommun}`;
+      resultsList.appendChild(li);
+    });
+  }
+}
+</script>
+</body>
+</html>
