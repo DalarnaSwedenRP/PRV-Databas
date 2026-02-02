@@ -88,7 +88,7 @@
 </head>
 <body>
 
-<h1>PRV - Databas</h1>
+<h1>Dalarna Sweden RP - Varumärkesregister</h1>
 
 <div class="container">
   <div class="filters">
@@ -124,7 +124,7 @@ function populateLans() {
     lanSelect.appendChild(option);
   });
 
-  updateKommuner(); // uppdatera kommuner direkt efter ladda län
+  updateKommuner();
 }
 
 function updateKommuner() {
@@ -152,7 +152,10 @@ function search() {
   resultsList.innerHTML = '';
 
   const results = brands.filter(b => {
-    return (!query || b.varumarke.toLowerCase().includes(query)) &&
+    const matchesQuery = !query || b.varumarke.toLowerCase().includes(query);
+    const matchesLan = !selectedLan || b.lan === selectedLan;
+    const matchesKommun = !selectedKommun || b.kommun === selectedKommun;
+    return matchesQuery && matchesLan && matchesKommun;
   });
 
   if (results.length === 0) {
