@@ -19,4 +19,14 @@
     "lan": "Dalarna",
     "kommun": "Alla"
   }
+  {
+    "id": 3,
+    "varumarke": "Daladjur",
+    "agare": "Emil Bäcklund",
+    "registreringsdatum": "2026-01-14",
+    "kategori": "7, 31",
+    "status": "Aktiv",
+    "lan": "Dalarna",
+    "kommun": "Mora"
+  },
 ]
