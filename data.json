@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "varumarke": "Windskore",
+    "agare": "Adrian",
+    "registreringsdatum": "2026-02-02",
+    "kategori": "Spel",
+    "status": "Aktiv",
+    "lan": "Dalarna",
+    "kommun": "Hedemora"
+  },
+  {
+    "id": 2,
+    "varumarke": "Dalarna Motors",
+    "agare": "Jonas",
+    "registreringsdatum": "2025-12-15",
+    "kategori": "Fordon",
+    "status": "Aktiv",
+    "lan": "Stockholm",
+    "kommun": "Stockholm"
+  }
+]
